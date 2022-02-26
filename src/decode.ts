@@ -1,8 +1,11 @@
+interface ControllerInputState {
+	[input: string]: null | number | boolean
+}
 
-const decode = (buffer) => {
+export const decode = (buffer: any[]) => {
 	// convert bytes to list
 	const states = [...buffer] 
-	const state = {
+	const state: ControllerInputState = {
 		LX: null,
 		LY: null,
 		RX: null,
@@ -37,7 +40,7 @@ const decode = (buffer) => {
 
 	// state 7 always increments -> not used anywhere
 
-	buttonState = states[8]
+	const buttonState = states[8]
 	state.triangle = (buttonState & (1 << 7)) != 0
 	state.circle = (buttonState & (1 << 6)) != 0
 	state.cross = (buttonState & (1 << 5)) != 0
@@ -47,7 +50,7 @@ const decode = (buffer) => {
 	// dpad
 	state.dPadState = buttonState & 0x0F;
 
-	misc = states[9]
+	const misc = states[9]
 	state.R3 = (misc & (1 << 7)) != 0
 	state.L3 = (misc & (1 << 6)) != 0
 	state.options = (misc & (1 << 5)) != 0
@@ -57,12 +60,10 @@ const decode = (buffer) => {
 	state.R1 = (misc & (1 << 1)) != 0
 	state.L1 = (misc & (1 << 0)) != 0
 
-	misc2 = states[10]
+	const misc2 = states[10]
 	state.ps = (misc2 & (1 << 0)) != 0
 	state.touchBtn = (misc2 & 0x02) != 0
 	state.micBtn = (misc2 & 0x04) != 0
 
 	return state;
 };
-
-module.exports = decode;

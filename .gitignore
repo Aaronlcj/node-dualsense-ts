@@ -1,2 +1,7 @@
-node_modules/
+*.log
 .DS_Store
+node_modules/
+.cache
+dist
+.vscode
+.idea
